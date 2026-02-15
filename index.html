@@ -3,183 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Roxypcoin | La Cripto de la Comunidad 🚀🔥</title>
+    <title>Roxypcoin | Ecosistema de Inversión Profesional 🚀</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
-        :root { --apple-blue: #0071e3; --apple-green: #34c759; }
-        body { background: radial-gradient(circle at top, #1a1a1a 0%, #000 100%); color: white; font-family: -apple-system, system-ui, sans-serif; overflow-x: hidden; }
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px; }
-        .text-gradient { background: linear-gradient(135deg, #fff 30%, #555 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .btn-premium { background: linear-gradient(180deg, #444, #111); border: 1px solid #444; transition: 0.4s; }
-        .btn-premium:hover { border-color: var(--apple-blue); box-shadow: 0 0 20px rgba(0, 113, 227, 0.4); transform: translateY(-2px); }
-        .badge { background: rgba(0, 113, 227, 0.2); color: #00a2ff; padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: bold; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+        body { background-color: #050505; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .epic-modal { display: none; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); position: fixed; inset: 0; z-index: 100; align-items: center; justify-content: center; }
+        .epic-card { background: #111; border: 1px solid #222; border-radius: 4px; width: 100%; max-width: 420px; padding: 40px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .input-epic { background: #2a2a2a; border: 1px solid #333; padding: 14px; border-radius: 4px; width: 100%; color: white; outline: none; margin-bottom: 20px; transition: 0.3s; }
+        .input-epic:focus { border-color: #007bff; background: #333; }
+        .btn-blue { background: #007bff; color: white; font-weight: bold; padding: 14px; border-radius: 4px; width: 100%; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-blue:hover { background: #0056b3; box-shadow: 0 0 20px rgba(0, 123, 255, 0.4); }
+        .glass-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; transition: 0.3s; }
+        .glass-card:hover { border-color: #007bff; background: rgba(255, 255, 255, 0.04); }
+        .step-pill { background: #007bff; color: white; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 12px; font-weight: bold; }
     </style>
 </head>
-<body class="selection:bg-blue-500">
+<body>
 
-    <div class="bg-gradient-to-r from-red-600 via-yellow-500 to-red-600 text-black text-center py-2 text-[10px] md:text-xs font-black tracking-widest animate__animated animate__fadeInDown">
-        📢 AVISO CRÍTICO: USA UNA CONTRASEÑA EXCLUSIVA. TU CUENTA ES TU DINERO. ¡NO LA COMPARTAS! 🔐🏦
+    <div id="authModal" class="epic-modal">
+        <div class="epic-card">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-black italic tracking-tighter">ROXYP<span class="text-blue-500 italic">COIN</span></h2>
+                <p id="authSub" class="text-gray-500 text-[10px] mt-2 uppercase tracking-[3px]">Inicia sesión con tu cuenta</p>
+            </div>
+            
+            <div class="space-y-1">
+                <label class="text-[10px] font-bold text-gray-500 uppercase ml-1">Correo Electrónico</label>
+                <input type="email" id="authEmail" class="input-epic" placeholder="Email">
+                
+                <label class="text-[10px] font-bold text-gray-500 uppercase ml-1">Contraseña</label>
+                <input type="password" id="authPass" class="input-epic" placeholder="Contraseña">
+                
+                <button onclick="ejecutarAuth()" id="authBtn" class="btn-blue">Iniciar Sesión</button>
+                
+                <p class="text-center text-xs text-gray-500 mt-8">
+                    <span id="authSwitchText">¿No tienes cuenta de Roxyp?</span> 
+                    <a href="javascript:void(0)" onclick="toggleAuthMode()" class="text-white underline font-bold ml-1" id="authLink">Regístrate</a>
+                </p>
+                <button onclick="closeAuth()" class="text-[9px] text-gray-600 w-full mt-10 uppercase tracking-widest hover:text-white transition">Volver atrás</button>
+            </div>
+        </div>
     </div>
 
-    <nav class="sticky top-0 z-50 glass m-4 px-6 py-3 flex justify-between items-center border border-white/5 shadow-2xl">
-        <div class="text-2xl font-black tracking-tighter flex items-center gap-2">
-            <span class="text-blue-500"></span> ROXYPCOIN
-        </div>
-        <div class="flex items-center gap-6">
-            <a href="#comunidad" class="hidden md:block text-sm text-gray-400 hover:text-white transition">Comunidad</a>
-            <button onclick="login()" class="text-sm font-bold text-gray-300">Entrar 🔑</button>
-            <button onclick="registro()" class="bg-blue-600 hover:bg-blue-500 px-6 py-2 rounded-full text-sm font-black shadow-lg shadow-blue-500/20 transition">UNIRSE 🚀</button>
+    <nav class="sticky top-0 z-50 bg-[#050505]/80 backdrop-blur-md border-b border-white/5 px-8 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-black tracking-tighter flex items-center gap-2">
+                <span class="text-blue-600 italic"></span> ROXYPCOIN
+            </div>
+            <div id="user-nav" class="flex gap-8 items-center">
+                <div class="hidden md:block text-right">
+                    <p class="text-[10px] text-gray-500 uppercase font-bold">Saldo Disponible</p>
+                    <p id="user-balance" class="text-sm font-black text-blue-500">0.00 RP</p>
+                </div>
+                <button id="mainAuthBtn" onclick="openAuth('login')" class="bg-white text-black px-8 py-2.5 rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-blue-600 hover:text-white transition">Acceso Cliente</button>
+            </div>
         </div>
     </nav>
 
-    <header class="py-20 text-center px-4">
-        <div class="animate__animated animate__fadeIn">
-            <span class="badge mb-6 inline-block">FASE 1: ACTIVA ✅</span>
-            <h1 class="text-6xl md:text-8xl font-black tracking-tight mb-6 text-gradient italic">
-                El Futuro es <br> de la Comunidad. 🤝
-            </h1>
-            <p class="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl leading-relaxed">
-                Roxypcoin no es solo una moneda, es un pacto de acero. 💎 Compramos barato, aguantamos juntos y multiplicamos el valor. ¡No te quedes fuera! 🌕✨
-            </p>
-        </div>
-    </header>
+    <main class="max-w-7xl mx-auto py-16 px-6">
+        <div class="grid lg:grid-cols-3 gap-16">
+            
+            <div class="lg:col-span-2 space-y-20">
+                <section class="animate__animated animate__fadeIn">
+                    <h1 class="text-6xl font-black mb-6 italic tracking-tight">Activos en Fase 1.</h1>
+                    <p class="text-gray-400 text-lg max-w-xl mb-12 leading-relaxed">Invierte en la primera etapa del ecosistema. Al agotarse el stock, el valor saltará automáticamente a 2.00€.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="glass-card p-10 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-blue-600 px-4 py-1 text-[10px] font-black italic uppercase">Fase Actual</div>
+                            <h3 class="text-gray-500 font-bold text-xs uppercase mb-4 tracking-widest">Paquete Estándar</h3>
+                            <div class="text-6xl font-black mb-8 italic">1.00€ <span class="text-sm font-normal text-gray-600 italic">/ RP</span></div>
+                            <button onclick="comprar(1)" class="w-full btn-blue py-4 font-black">Comprar Ahora 💳</button>
+                        </div>
+                        <div class="glass-card p-10 bg-white/[0.01] border-dashed">
+                            <h3 class="text-gray-500 font-bold text-xs uppercase mb-4 tracking-widest">Siguiente Nivel</h3>
+                            <div class="text-6xl font-black mb-8 text-zinc-800 italic">2.00€</div>
+                            <div class="w-full bg-zinc-900 h-1.5 rounded-full overflow-hidden">
+                                <div class="bg-zinc-700 h-full w-[0%]"></div>
+                            </div>
+                            <p class="text-[10px] text-zinc-700 mt-4 font-bold uppercase tracking-widest text-center italic">Esperando finalización de Fase 1</p>
+                        </div>
+                    </div>
+                </section>
 
-    <section class="max-w-6xl mx-auto py-12 px-6 grid md:grid-cols-3 gap-10">
-        <div class="glass p-8 relative overflow-hidden group hover:border-green-500/50 transition">
-            <div class="text-5xl mb-6 group-hover:animate-bounce">🌱</div>
-            <h3 class="text-2xl font-bold mb-2">Fase Semilla</h3>
-            <p class="text-gray-500 text-sm mb-6">Solo para los primeros 10k inversores. El inicio de todo.</p>
-            <div class="text-6xl font-black mb-8 text-green-400">1.00€ <span class="text-xs text-gray-600">/RP</span></div>
-            <button onclick="pagar(1)" class="w-full py-5 rounded-2xl bg-white text-black font-black text-lg hover:scale-105 transition shadow-xl">COMPRAR YA 💳</button>
-        </div>
-
-        <div class="glass p-8 relative overflow-hidden border-blue-500/50 scale-105 bg-white/5 shadow-blue-500/10 shadow-2xl">
-            <div class="absolute top-0 right-0 bg-blue-600 px-4 py-1 text-[10px] font-black italic">TOP VENTAS 🔥</div>
-            <div class="text-5xl mb-6 animate-pulse">🚀</div>
-            <h3 class="text-2xl font-bold mb-2 text-blue-400">Fase Despegue</h3>
-            <p class="text-gray-400 text-sm mb-6">Cuando el mundo se entere, este será el precio base. ¡Anticípate!</p>
-            <div class="text-6xl font-black mb-8">2.00€ <span class="text-xs text-gray-600">/RP</span></div>
-            <button onclick="pagar(2)" class="w-full py-5 rounded-2xl bg-blue-600 text-white font-black text-lg hover:scale-105 transition shadow-blue-500/50 shadow-2xl">INVERTIR AHORA 📈</button>
-        </div>
-
-        <div class="glass p-8 relative overflow-hidden group hover:border-purple-500/50 transition">
-            <div class="text-5xl mb-6 group-hover:rotate-12 transition">👑</div>
-            <h3 class="text-2xl font-bold mb-2">Fase Élite</h3>
-            <p class="text-gray-500 text-sm mb-6">Reserva de valor para grandes carteras. Estabilidad total.</p>
-            <div class="text-6xl font-black mb-8 text-purple-400">3.00€ <span class="text-xs text-gray-600">/RP</span></div>
-            <button onclick="pagar(3)" class="w-full py-5 rounded-2xl btn-premium text-white font-black text-lg hover:scale-105 transition">ADQUIRIR 💎</button>
-        </div>
-    </section>
-
-    <section class="max-w-4xl mx-auto py-24 px-6 text-center">
-        <h2 class="text-4xl font-black mb-16 italic underline decoration-blue-500">¿Cuál es la Estrategia? 🤔💡</h2>
-        <div class="grid md:grid-cols-2 gap-8 text-left">
-            <div class="glass p-8">
-                <h4 class="text-xl font-bold mb-4">1. Compra Blindada 🛡️</h4>
-                <p class="text-gray-400 text-sm leading-relaxed">Al comprar a 1€, te unes al grupo de holders. Tu cuenta guarda tus monedas de forma segura en nuestro ecosistema.</p>
+                <section id="guia-venta" class="animate__animated animate__fadeIn animate__delay-1s">
+                    <div class="flex items-center gap-4 mb-10">
+                        <h2 class="text-3xl font-black italic tracking-tighter">Cómo liquidar tu inversión</h2>
+                        <div class="h-[1px] bg-white/10 flex-1"></div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-10">
+                        <div class="flex gap-6">
+                            <div class="step-pill">1</div>
+                            <div>
+                                <h4 class="font-bold text-white mb-2 uppercase text-sm italic">Generar Token</h4>
+                                <p class="text-sm text-gray-500 leading-relaxed">Desde tu panel privado generas un código único de traspaso.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6">
+                            <div class="step-pill">2</div>
+                            <div>
+                                <h4 class="font-bold text-white mb-2 uppercase text-sm italic">Fijar Precio</h4>
+                                <p class="text-sm text-gray-500 leading-relaxed">Tú decides a cuánto vendes tu código al nuevo comprador.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
-            <div class="glass p-8">
-                <h4 class="text-xl font-bold mb-4">2. Venta de Cuentas 🔑</h4>
-                <p class="text-gray-400 text-sm leading-relaxed">¿El precio ha subido a 3€? Puedes vender tus datos de acceso a nuevos inversores y llevarte el beneficio neto.</p>
-            </div>
-        </div>
-    </section>
 
-    <section id="comunidad" class="max-w-4xl mx-auto py-12 px-6">
-        <div class="flex items-center justify-between mb-8">
-            <h2 class="text-3xl font-black italic">Muro de Inversores 🗣️💬</h2>
-            <span class="text-green-400 text-xs font-bold animate-pulse">● LIVE</span>
-        </div>
-        <div id="muro" class="space-y-4 mb-8 max-h-[500px] overflow-y-auto pr-2">
-            </div>
-        <div class="glass p-6">
-            <textarea id="msg" placeholder="¡Dile al mundo cuánto has invertido! 🔥🚀" class="w-full bg-transparent border-none focus:ring-0 text-white placeholder-gray-600 resize-none h-24 text-lg"></textarea>
-            <div class="flex justify-end mt-4">
-                <button onclick="postear()" class="bg-white text-black px-10 py-3 rounded-full font-black hover:bg-blue-500 hover:text-white transition shadow-xl">PUBLICAR 📩</button>
-            </div>
-        </div>
-    </section>
+            <aside class="space-y-8 animate__animated animate__fadeInRight">
+                <div class="glass-card p-8 border-blue-500/20 shadow-2xl shadow-blue-500/5">
+                    <h3 class="text-gray-500 font-bold text-[10px] uppercase tracking-[2px] mb-6">Tu Portafolio Activo</h3>
+                    <div class="text-6xl font-black italic mb-2 tracking-tighter" id="main-balance">0.00<span class="text-lg text-blue-600 ml-2 italic">RP</span></div>
+                    <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">Reserva de valor protegida ✓</p>
+                    <button onclick="alert('Funcionalidad de token en desarrollo para Fase 1')" class="w-full mt-8 border border-white/10 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition">Generar Token de Venta</button>
+                </div>
 
-    <section class="max-w-3xl mx-auto py-24 px-6">
-        <h2 class="text-4xl font-black mb-12 text-center">FAQ 🧐❓</h2>
-        <div class="space-y-4">
-            <details class="glass p-6 group cursor-pointer">
-                <summary class="font-black flex justify-between">¿Es seguro? 🏦 <span class="group-open:rotate-180 transition">↓</span></summary>
-                <p class="mt-4 text-gray-400 text-sm">Absolutamente. Usamos tecnología de Supabase para proteger tus datos y Stripe para los pagos. No guardamos tus tarjetas.</p>
-            </details>
-            <details class="glass p-6 group cursor-pointer">
-                <summary class="font-black flex justify-between">¿Puedo recuperar mi inversión? 💶 <span class="group-open:rotate-180 transition">↓</span></summary>
-                <p class="mt-4 text-gray-400 text-sm">Claro. Puedes vender tu cuenta de usuario a otros inversores o esperar a la Fase de Mercado Abierto.</p>
-            </details>
-            <details class="glass p-6 group cursor-pointer">
-                <summary class="font-black flex justify-between">¿Cómo me registro? 👤 <span class="group-open:rotate-180 transition">↓</span></summary>
-                <p class="mt-4 text-gray-400 text-sm">Haz clic en "Unirse", pon tu email y crea una contraseña fuerte. ¡Recuerda que no sea la de siempre!</p>
-            </details>
+                <div class="glass-card p-8">
+                    <h3 class="text-white font-bold text-sm mb-6 italic underline decoration-blue-600 underline-offset-8">Muro de Holders 🗣️</h3>
+                    <div id="muro-pro" class="space-y-6"></div>
+                    <div class="mt-6">
+                        <textarea id="msg" placeholder="Escribe tu opinión..." class="w-full bg-white/5 border border-white/10 p-4 text-xs rounded-sm focus:outline-none focus:border-blue-600 h-24 mb-4 text-white"></textarea>
+                        <button onclick="postear()" class="w-full bg-white text-black py-3 text-[10px] font-black uppercase tracking-widest">Publicar</button>
+                    </div>
+                </div>
+            </aside>
         </div>
-    </section>
-
-    <footer class="py-20 text-center border-t border-white/5 opacity-50">
-        <div class="text-xl font-black mb-4 tracking-widest"> ROXYPCOIN</div>
-        <p class="text-[10px] uppercase tracking-widest">Inversión Comunitaria Responsable | 2026 🌍✨</p>
-    </footer>
+    </main>
 
     <script>
-        // --- MOTOR SUPABASE (TUS CLAVES REALES) ---
+        // CONFIGURACIÓN INTEGRADA CON TU ANON KEY
         const supabaseUrl = 'https://oubfxxogesvodrzknlqb.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im91YmZ4eG9nZXN2b2RyemtubHFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzExMTk2NTMsImV4cCI6MjA4NjY5NTY1M30.qqNy8FEkRlwEbXqDpbG_AmUt0DWprU9fqFi5YAaG0O8';
         const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        async function registro() {
-            const email = prompt("📧 Introduce tu Email:");
-            const pass = prompt("🔐 Crea tu Contraseña ÚNICA:");
-            if(!email || !pass) return;
-            const { error } = await _supabase.auth.signUp({ email, password: pass });
-            if(error) alert("❌ Error: " + error.message);
-            else alert("✅ ¡Cuenta creada! Confirma tu email para empezar a ganar.");
+        let authMode = 'login';
+
+        function openAuth(mode) {
+            authMode = mode;
+            document.getElementById('authModal').style.display = 'flex';
+            document.getElementById('authBtn').innerText = (mode === 'login') ? 'Iniciar Sesión' : 'Crear Cuenta';
         }
 
-        async function login() {
-            const email = prompt("📧 Tu Email:");
-            const pass = prompt("🔐 Tu Contraseña:");
-            const { error } = await _supabase.auth.signInWithPassword({ email, password: pass });
-            if(error) alert("❌ Datos incorrectos.");
-            else alert("✅ ¡Bienvenido, Inversor! Accediendo a tu panel...");
+        function closeAuth() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+
+        function toggleAuthMode() {
+            authMode = (authMode === 'login') ? 'signup' : 'login';
+            document.getElementById('authBtn').innerText = (authMode === 'login') ? 'Iniciar Sesión' : 'Crear Cuenta';
+            document.getElementById('authLink').innerText = (authMode === 'login') ? 'Regístrate' : 'Inicia Sesión';
+            document.getElementById('authSwitchText').innerText = (authMode === 'login') ? '¿No tienes cuenta de Roxyp?' : '¿Ya tienes una cuenta?';
+        }
+
+        async function ejecutarAuth() {
+            const email = document.getElementById('authEmail').value;
+            const pass = document.getElementById('authPass').value;
+            if(!email || !pass) return alert("Completa los campos.");
+
+            if(authMode === 'signup') {
+                const { error } = await _supabase.auth.signUp({ email, password: pass });
+                if(error) alert(error.message); else alert("✅ ¡Éxito! Revisa tu email.");
+            } else {
+                const { error } = await _supabase.auth.signInWithPassword({ email, password: pass });
+                if(error) alert("Datos incorrectos."); else { closeAuth(); checkUser(); }
+            }
+        }
+
+        async function checkUser() {
+            const { data: { user } } = await _supabase.auth.getUser();
+            if (user) {
+                document.getElementById('mainAuthBtn').innerText = "Salir";
+                document.getElementById('mainAuthBtn').onclick = () => _supabase.auth.signOut().then(() => location.reload());
+                actualizarSaldo(user.id);
+            }
+        }
+
+        async function actualizarSaldo(uid) {
+            const { data } = await _supabase.from('perfiles').select('saldo_rp').eq('id', uid).single();
+            if(data) {
+                document.getElementById('main-balance').innerHTML = data.saldo_rp.toFixed(2) + '<span class="text-lg text-blue-600 ml-2 italic">RP</span>';
+                document.getElementById('user-balance').innerText = data.saldo_rp.toFixed(2) + ' RP';
+            }
         }
 
         async function postear() {
             const txt = document.getElementById('msg');
-            if(!txt.value.trim()) return;
-            const { error } = await _supabase.from('comentarios').insert([{ contenido: txt.value, usuario: 'Inversor_VIP' }]);
-            if(error) alert("⚠️ Identifícate primero para comentar.");
-            else { txt.value = ""; cargar(); }
+            const { data: { user } } = await _supabase.auth.getUser();
+            if(!user) return openAuth('login');
+            const { error } = await _supabase.from('comentarios').insert([{ contenido: txt.value, usuario: user.email.split('@')[0] }]);
+            if(!error) { txt.value = ""; cargarMuro(); }
         }
 
-        async function cargar() {
-            const { data, error } = await _supabase.from('comentarios').select('*').order('created_at', { ascending: false });
-            const muro = document.getElementById('muro');
+        async function cargarMuro() {
+            const { data } = await _supabase.from('comentarios').select('*').order('created_at', { ascending: false }).limit(5);
             if(data) {
-                muro.innerHTML = data.map(c => `
-                    <div class="glass p-5 border-l-4 border-blue-500 animate__animated animate__fadeInLeft">
-                        <p class="text-white text-md">"${c.contenido}"</p>
-                        <div class="mt-3 flex items-center gap-2">
-                            <span class="text-[10px] font-black text-blue-400 uppercase tracking-tighter">@${c.usuario}</span>
-                            <span class="text-[10px] text-gray-600 italic">Verificado ✓</span>
-                        </div>
+                document.getElementById('muro-pro').innerHTML = data.map(c => `
+                    <div class="border-b border-white/5 pb-6 animate__animated animate__fadeIn">
+                        <p class="text-gray-400 text-xs italic">"${c.contenido}"</p>
+                        <span class="text-[9px] text-blue-600 font-black uppercase mt-3 block tracking-widest">@${c.usuario}</span>
                     </div>
                 `).join('');
             }
         }
 
-        function pagar(fase) {
-            alert("🚀 Redirigiendo a Stripe Seguro... Preparando tu inversión de " + fase + "€");
+        function comprar(fase) {
+            alert("Redirigiendo a pasarela segura de Stripe para Fase " + fase);
         }
 
-        cargar(); // Carga inicial
-        setInterval(cargar, 10000); // Auto-refresco cada 10 seg
+        checkUser();
+        cargarMuro();
     </script>
 </body>
 </html>
