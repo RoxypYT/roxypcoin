@@ -3,103 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roxypcoin | El Pacto de la Comunidad</title>
+    <title>Roxypcoin | El Pacto de la Comunidad 🚀</title>
+    <meta name="description" content="Invierte en Roxypcoin. Precio controlado por fases: 1€, 2€ y 3€. Compra, guarda y gana con la comunidad.">
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
-        body { background-color: #000; color: #fff; font-family: -apple-system, system-ui, sans-serif; }
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .gradient-text { background: linear-gradient(90deg, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        body { background-color: #050505; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .btn-apple { background: linear-gradient(180deg, #0071e3 0%, #0077ed 100%); transition: all 0.3s ease; }
+        .btn-apple:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(0, 113, 227, 0.5); }
+        .card-shadow { box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        details summary::-webkit-details-marker { display: none; }
     </style>
 </head>
-<body class="selection:bg-blue-500">
+<body class="antialiased">
 
-    <nav class="p-6 flex justify-between items-center max-w-6xl mx-auto">
-        <div class="text-2xl font-bold tracking-tighter"> Roxypcoin</div>
-        <div class="space-x-6 text-sm text-gray-400">
-            <a href="#planes" class="hover:text-white transition">Planes</a>
-            <a href="#mision" class="hover:text-white transition">Misión</a>
-            <a href="#faq" class="hover:text-white transition">FAQ</a>
+    <div class="bg-gradient-to-r from-yellow-500 to-orange-600 text-black text-center py-2 text-[10px] md:text-xs font-black uppercase tracking-[0.2em] px-4">
+        ⚠️ SEGURIDAD: USA UNA CONTRASEÑA QUE NO USES EN NINGÚN OTRO SITIO. PROTEGE TU INVERSIÓN.
+    </div>
+
+    <nav class="sticky top-0 z-50 glass border-b border-white/10 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-black tracking-tighter text-blue-500">ROXYP<span class="text-white">COIN</span></div>
+            <div class="flex items-center gap-4">
+                <button onclick="login()" class="text-sm font-medium text-gray-400 hover:text-white transition">Entrar</button>
+                <button onclick="registro()" class="btn-apple px-6 py-2 rounded-full text-sm font-bold shadow-lg">Crear Cuenta 👤</button>
+            </div>
         </div>
     </nav>
 
-    <header class="py-20 text-center px-4">
-        <h1 class="text-6xl md:text-8xl font-bold tracking-tighter mb-6 gradient-text">Invierte. Sube. Gana.</h1>
-        <p class="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl">
-            Roxypcoin es un experimento económico donde la comunidad controla el valor. Compramos barato, nos ponemos de acuerdo y subimos el suelo de precio.
+    <header class="pt-20 pb-16 text-center px-4 max-w-4xl mx-auto">
+        <h1 class="text-6xl md:text-8xl font-extrabold tracking-tight mb-8 bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent italic">
+            Hazlo real. 📈
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-400 font-light leading-relaxed">
+            La moneda donde la comunidad manda. Compramos a <span class="text-green-400 font-bold underline">1€</span> para vender a <span class="text-blue-400 font-bold underline">3€</span>. El plan es sencillo, el resultado es masivo. 🌍🤝
         </p>
     </header>
 
-    <section id="planes" class="max-w-6xl mx-auto py-20 px-4">
-        <h2 class="text-3xl font-bold mb-12 text-center">Selecciona tu Plan de Entrada</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="glass p-8 rounded-[32px] hover:border-blue-500 transition cursor-pointer">
-                <span class="text-blue-500 font-mono text-sm">FASE 1</span>
-                <h3 class="text-4xl font-bold my-4">1€ <span class="text-lg text-gray-500">/RP</span></h3>
-                <p class="text-gray-400 mb-6 text-sm">Ideal para pioneros. Compras al precio más bajo posible.</p>
-                <button onclick="buy(1)" class="w-full bg-white text-black py-4 rounded-full font-bold hover:bg-gray-200">Elegir Plan</button>
-            </div>
-            <div class="glass p-8 rounded-[32px] border-blue-500/50 relative overflow-hidden">
-                <div class="absolute top-0 right-0 bg-blue-600 px-4 py-1 text-xs font-bold">POPULAR</div>
-                <span class="text-blue-500 font-mono text-sm text-blue-400">FASE 2</span>
-                <h3 class="text-4xl font-bold my-4">2€ <span class="text-lg text-gray-500">/RP</span></h3>
-                <p class="text-gray-400 mb-6 text-sm">Para los que buscan estabilidad. El precio base ya ha subido.</p>
-                <button onclick="buy(2)" class="w-full bg-blue-600 text-white py-4 rounded-full font-bold hover:bg-blue-700">Elegir Plan</button>
-            </div>
-            <div class="glass p-8 rounded-[32px] hover:border-blue-500 transition cursor-pointer">
-                <span class="text-blue-500 font-mono text-sm">FASE 3</span>
-                <h3 class="text-4xl font-bold my-4">3€ <span class="text-lg text-gray-500">/RP</span></h3>
-                <p class="text-gray-400 mb-6 text-sm">Entrada premium. Valor respaldado por una comunidad masiva.</p>
-                <button onclick="buy(3)" class="w-full bg-white text-black py-4 rounded-full font-bold hover:bg-gray-200">Elegir Plan</button>
-            </div>
+    <section class="max-w-6xl mx-auto py-12 px-6 grid md:grid-cols-3 gap-8 items-end">
+        <div class="glass p-10 rounded-[40px] card-shadow border-green-500/20">
+            <div class="text-5xl mb-6">🐣</div>
+            <h3 class="text-xl font-bold text-gray-300">Fase Semilla</h3>
+            <div class="text-6xl font-black my-4 text-white">1€ <span class="text-sm text-gray-500 text-green-400">¡ACTIVO!</span></div>
+            <p class="text-gray-400 mb-8 text-sm">Tu oportunidad de oro. Máximo beneficio garantizado por el pacto comunitario.</p>
+            <button onclick="pagar(1)" class="w-full py-5 rounded-3xl font-bold bg-white text-black hover:bg-gray-200 transition text-lg">Comprar Fase 1 💳</button>
+        </div>
+        <div class="glass p-10 rounded-[40px] card-shadow border-blue-500/40 relative scale-105 z-10">
+            <div class="absolute top-6 right-8 bg-blue-600 px-3 py-1 rounded-full text-[10px] font-bold">RECOMENDADO</div>
+            <div class="text-5xl mb-6">🚀</div>
+            <h3 class="text-xl font-bold text-gray-300">Fase Despegue</h3>
+            <div class="text-6xl font-black my-4 text-white">2€</div>
+            <p class="text-gray-400 mb-8 text-sm">El suelo de precio sube. Tu cuenta ya vale el doble que los de la Fase 1.</p>
+            <button onclick="pagar(2)" class="w-full py-5 rounded-3xl font-bold btn-apple text-white transition text-lg shadow-blue-500/20 shadow-xl font-black">Comprar Fase 2 💳</button>
+        </div>
+        <div class="glass p-10 rounded-[40px] card-shadow border-purple-500/20">
+            <div class="text-5xl mb-6">💎</div>
+            <h3 class="text-xl font-bold text-gray-300">Fase Diamante</h3>
+            <div class="text-6xl font-black my-4 text-white">3€</div>
+            <p class="text-gray-400 mb-8 text-sm">Consolidación total. El activo se vuelve escaso y premium.</p>
+            <button onclick="pagar(3)" class="w-full py-5 rounded-3xl font-bold bg-zinc-800 text-white hover:bg-zinc-700 transition text-lg">Comprar Fase 3 💳</button>
         </div>
     </section>
 
-    <section id="mision" class="bg-zinc-900 py-24 px-4">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-4xl font-bold mb-8 italic">"¿Cómo hacemos que el precio suba?"</h2>
-            <div class="grid md:grid-cols-2 gap-12 text-left">
-                <div class="glass p-6 rounded-2xl">
-                    <h4 class="font-bold mb-2 text-blue-400">1. El Pacto del Suelo</h4>
-                    <p class="text-gray-400 text-sm">Al comprar a 1€, te comprometes a no vender por menos de 2€. Cuando todos hacemos esto, el valor real del mercado se desplaza hacia arriba de forma artificial pero sólida.</p>
-                </div>
-                <div class="glass p-6 rounded-2xl">
-                    <h4 class="font-bold mb-2 text-blue-400">2. Efecto Escasez</h4>
-                    <p class="text-gray-400 text-sm">Cada fase tiene un límite de monedas. Una vez se agotan las de 1€, el que quiera entrar DEBE comprar a 2€, haciendo que tu inversión inicial ya valga el doble.</p>
-                </div>
+    <section class="max-w-4xl mx-auto py-24 px-6">
+        <div class="glass p-12 rounded-[50px] text-center border-blue-500/10">
+            <h2 class="text-4xl font-bold mb-6 italic">¿Cuál es el secreto? 🤫</h2>
+            <p class="text-gray-400 text-lg leading-relaxed">
+                Queremos que cada comprador se convierta en un embajador. Si compras a 1€, **tu misión es no vender por menos de 2€**. Al mantener el precio, obligamos al mercado a subir. Tú ganas, la comunidad gana. 
+                <br><br>
+                <span class="text-white font-bold">Puedes vender tu cuenta completa con usuario y contraseña cuando el precio alcance tu objetivo. 🗝️</span>
+            </p>
+        </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto py-12 px-6">
+        <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">Opiniones Reales 🗣️ <span class="text-sm bg-zinc-800 px-3 py-1 rounded-full text-gray-400 font-normal">En vivo</span></h2>
+        <div id="muro-comentarios" class="space-y-4 mb-8">
+            <div class="glass p-6 rounded-3xl border-l-4 border-blue-500">
+                <p class="text-gray-200">"He comprado 200€ en la Fase 1. Si esto llega a 3€ me compro la moto. ¡Vamos equipo! 🔥"</p>
+                <div class="mt-4 text-xs font-bold text-blue-400 uppercase tracking-widest">@CryptoRoxyp_99</div>
             </div>
         </div>
-    </section>
-
-    <section class="max-w-4xl mx-auto py-20 px-4 text-center">
-        <h2 class="text-3xl font-bold mb-10">Lo que dice la comunidad</h2>
-        <div class="grid gap-4">
-            <div class="glass p-4 rounded-xl text-left italic text-gray-300">"Acabo de pillar 50 RP a 1€. ¡Esperando a que lleguemos a la fase 2 para ver ese x2!" - @CryptoJuan</div>
-            <div class="glass p-4 rounded-xl text-left italic text-gray-300">"Me encanta el diseño, super limpio. Vamos a por los 10€." - @RoxypFan</div>
+        <div class="flex flex-col gap-4">
+            <textarea id="nuevo-comentario" placeholder="Escribe tu opinión sobre el proyecto..." class="w-full bg-white/5 border border-white/10 p-6 rounded-[30px] focus:outline-none focus:border-blue-500 min-h-[120px] text-white transition-all"></textarea>
+            <button onclick="enviarComentario()" class="btn-apple self-end px-10 py-4 rounded-full font-black text-sm uppercase tracking-widest shadow-xl">Publicar Comentario 📩</button>
         </div>
-        <input type="text" placeholder="Escribe tu opinión..." class="w-full mt-6 bg-transparent border border-gray-800 p-4 rounded-xl outline-none focus:border-blue-500">
     </section>
 
-    <section id="faq" class="max-w-2xl mx-auto py-20 px-4">
-        <h2 class="text-3xl font-bold mb-8 text-center">Preguntas Frecuentes</h2>
-        <div class="space-y-6">
-            <details class="glass p-4 rounded-xl cursor-pointer">
-                <summary class="font-bold">¿Es seguro mi dinero?</summary>
-                <p class="pt-4 text-gray-400 text-sm">Roxypcoin utiliza contratos inteligentes en la red de Polygon para asegurar que nadie pueda tocar tus fondos excepto tú.</p>
+    <section class="max-w-3xl mx-auto py-24 px-6">
+        <h2 class="text-4xl font-bold mb-12 text-center italic">Lo que todos preguntan 🤔</h2>
+        <div class="space-y-4">
+            <details class="group glass p-6 rounded-[30px] transition-all">
+                <summary class="flex justify-between items-center font-bold text-lg cursor-pointer">
+                    ¿Es seguro vender mi cuenta después? 🗝️
+                    <span class="group-open:rotate-180 transition-transform">↓</span>
+                </summary>
+                <p class="mt-4 text-gray-400 leading-relaxed">Totalmente. Tus Roxypcoins están vinculadas a tu perfil. Al vender tu usuario y contraseña, transfieres la propiedad del activo. ¡Por eso es vital que uses una contraseña que no uses en tu banco!</p>
             </details>
-            <details class="glass p-4 rounded-xl cursor-pointer">
-                <summary class="font-bold">¿Cuándo sube el precio?</summary>
-                <p class="pt-4 text-gray-400 text-sm">El precio sube automáticamente cada vez que se venden 10.000 unidades de la fase actual.</p>
+            <details class="group glass p-6 rounded-[30px] transition-all">
+                <summary class="flex justify-between items-center font-bold text-lg cursor-pointer">
+                    ¿Cuándo pasamos a la siguiente fase? ⏳
+                    <span class="group-open:rotate-180 transition-transform">↓</span>
+                </summary>
+                <p class="mt-4 text-gray-400 leading-relaxed">El sistema cambia automáticamente de fase cada vez que se venden 10.000 unidades. ¡El FOMO es real!</p>
+            </details>
+            <details class="group glass p-6 rounded-[30px] transition-all">
+                <summary class="flex justify-between items-center font-bold text-lg cursor-pointer">
+                    ¿Cómo retiro mi dinero? 💶
+                    <span class="group-open:rotate-180 transition-transform">↓</span>
+                </summary>
+                <p class="mt-4 text-gray-400 leading-relaxed">Puedes vender tus monedas a otros usuarios interesados en entrar en fases más avanzadas o esperar al mercado abierto que lanzaremos en la Fase 10.</p>
             </details>
         </div>
     </section>
 
-    <footer class="py-10 text-center text-gray-600 text-xs border-t border-gray-900">
-        &copy; 2026 Roxypcoin Ecosystem. No es consejo financiero.
+    <footer class="py-20 text-center border-t border-white/5">
+        <div class="text-blue-500 font-black text-2xl mb-4">ROXYPCOIN</div>
+        <p class="text-gray-600 text-[10px] uppercase tracking-widest">© 2026 Ecosistema Roxyp. Proyecto Comunitario Independiente.</p>
     </footer>
 
     <script>
-        function buy(plan) {
-            alert("Has seleccionado la Fase " + plan + ". En el siguiente paso conectaremos con Stripe para el pago real.");
+        // --- CONFIGURACIÓN DE SUPABASE (CONECTA TU CEREBRO AQUÍ) ---
+        const SB_URL = 'TU_URL_DE_SUPABASE'; // <--- PEGA TU URL
+        const SB_KEY = 'TU_ANON_KEY';       // <--- PEGA TU KEY
+        const supabase = supabase.createClient(SB_URL, SB_KEY);
+
+        // Registro de Usuarios
+        async function registro() {
+            const email = prompt("Introduce tu Email para crear la cuenta:");
+            const pass = prompt("Crea una contraseña (RECUERDA: Que sea única):");
+            if(!email || !pass) return;
+
+            const { data, error } = await supabase.auth.signUp({ email, password: pass });
+            if(error) alert("❌ Error: " + error.message);
+            else alert("✅ ¡Casi listo! Confirma el email que te hemos enviado.");
+        }
+
+        // Login
+        async function login() {
+            const email = prompt("Tu Email:");
+            const pass = prompt("Tu Contraseña:");
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
+            if(error) alert("❌ Datos incorrectos.");
+            else alert("✅ ¡Bienvenido a Roxypcoin! Saldo actual: Cargando...");
+        }
+
+        // Comentarios Reales
+        async function enviarComentario() {
+            const txt = document.getElementById('nuevo-comentario');
+            if(!txt.value) return;
+            
+            // Simulación visual inmediata
+            const muro = document.getElementById('muro-comentarios');
+            const div = document.createElement('div');
+            div.className = "glass p-6 rounded-3xl border-l-4 border-green-500 animate-pulse";
+            div.innerHTML = `<p class="text-gray-200">"${txt.value}"</p><div class="mt-4 text-xs font-bold text-green-400">@Tú (Enviando...)</div>`;
+            muro.prepend(div);
+            
+            // Guardar en Supabase
+            const { error } = await supabase.from('comentarios').insert([{ contenido: txt.value, usuario: 'Anon' }]);
+            txt.value = "";
+            if(error) console.log("Error al guardar:", error);
+        }
+
+        // Pagos con Stripe
+        function pagar(fase) {
+            alert("🚀 Redirigiendo a Stripe para procesar tu pago de la Fase " + fase + "€...");
+            // Aquí pegarás tu link de Stripe cuando lo tengas
+            // window.location.href = "https://buy.stripe.com/XXXXX";
         }
     </script>
 </body>
